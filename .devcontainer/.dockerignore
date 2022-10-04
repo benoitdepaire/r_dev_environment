@@ -1,0 +1,26 @@
+# When we issue a command to tell Docker to create a container image (short 
+# “image”), then based on the directory in which we issue the command, 
+# Docker will consider all directories and files in that directory as being 
+# required to build the image. All of that will then be sent to the build context. 
+# The smaller the set of directories and files sent to the build context, the faster 
+# the container can be built.
+
+# There are some files or directories that are not required by Docker in our 
+# scenario. One example is all directories named “node_modules”.
+
+# Therefore we can let Docker know which directories and files to ignore when 
+# creating an image. By convention this file is named “.dockerignore”, using the 
+# same naming convention like “.gitignore” for git to express which directories 
+# and files git should ignore.
+
+# Source: https://manfredmlange.medium.com/creating-a-dev-container-for-typescript-and-vs-code-part-1-e653bb95c27f
+
+.dockerignore
+.env
+docker-compose.yml
+docker-compose
+
+.vs
+.vscode
+.git
+.gitignore

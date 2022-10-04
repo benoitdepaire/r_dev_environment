@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  vscode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: ${USER}
+        QUARTO_VERSION: ${QUARTO_VERSION}
+    user: ${USER}
+    volumes:
+      - ..:/workspace:cached
+      - ${RENV_PATHS_CACHE_HOST}:/renv/cache
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    command: sleep infinity
+    env_file: .env

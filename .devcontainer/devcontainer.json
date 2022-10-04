@@ -4,10 +4,14 @@
 	"name": "R",
 	
 	"dockerComposeFile": "docker-compose.yml",
-	"workspaceFolder": "/workspace",
+
+	// Here the term “service” is the Docker definition. It refers to a container that we define in the 
+	// “docker-compose.yml” file later. The name you choose here needs to match the name of a “service” 
+	// (in the Docker sense) in the docker-compose.yml file.
 	"service": "vscode",
-	// "workspaceMount": "source=${localWorkspaceFolder},target=/home/lucp1554/workspace,type=bind,consistency=cached", 
-	// "workspaceFolder": "/home/lucp1554/workspace",
+
+	// in which directory to find the workspace. The path provided here is the path as seen within the dev container. 
+	"workspaceFolder": "/workspace",
 
 	// dd: 04/10/2022
 	// !! Development container 'features' are a proposed addition to the development container specification. 
@@ -66,26 +70,22 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"REditorSupport.r",
-		//"/renv/cache/r-latest.vslx",
-		"ionutvmi.path-autocomplete", // Provides path completion for visual studio code.
-		"usernamehw.errorlens", //Improves highlighting of errors, warnings and other language diagnostics.
-		// "mhutchie.git-graph", //View a Git Graph of your repository, and easily perform Git actions from the graph. 
-		// "wayou.vscode-todo-highlight", // Highlight TODO, FIXME and other annotations within your code.
-		"tomoki1207.pdf", // Display pdf in VSCode
-		"DavidAnson.vscode-markdownlint", // Markdown linting and style checking for Visual Studio Code
-		// "Rubymaniac.vscode-paste-and-indent", // This extension adds limited support for pasting and indenting code. Much like SublimeText's paste_and_indent.
 		"GrapeCity.gc-excelviewer", // this extension provides custom editors and previews for CSV files and Excel spreadsheets in Visual Studio Code and Visual Studio Code for the Web.
+		"ionutvmi.path-autocomplete", // Provides path completion for visual studio code.
+		"DavidAnson.vscode-markdownlint", // Markdown linting and style checking for Visual Studio Code
+		"usernamehw.errorlens", //Improves highlighting of errors, warnings and other language diagnostics.
+		"tomoki1207.pdf", // Display pdf in VSCode
 		"IBM.output-colorizer", // Language extension for VSCode/Bluemix Code that adds syntax colorization for both the output/debug/extensions panel and *.log files.
-		//"Mohamed-El-Fodil-Ihaddaden.shinysnip",
 		"hediet.vscode-drawio", // This unofficial extension integrates Draw.io into VS Code.
-		//"MS-vsliveshare.vsliveshare-pack",
-		// "ms-python.python", // A Visual Studio Code extension with rich support for the Python language 
 		"RDebugger.r-debugger", // R Debugger for VS Code
-		//"GitHub.copilot",
-		"eamodio.gitlens", // Supercharge Git within VS Code 
 		"GitHub.vscode-pull-request-github", // This extension allows you to review and manage GitHub pull requests and issues in Visual Studio Code.
 		"quarto.quarto"
-		//"hoovercj.vscode-power-mode"
+		// "mhutchie.git-graph", //View a Git Graph of your repository, and easily perform Git actions from the graph. 
+		// "wayou.vscode-todo-highlight", // Highlight TODO, FIXME and other annotations within your code.
+		// "Rubymaniac.vscode-paste-and-indent", // This extension adds limited support for pasting and indenting code. Much like SublimeText's paste_and_indent.
+		// "Mohamed-El-Fodil-Ihaddaden.shinysnip",
+		// "MS-vsliveshare.vsliveshare-pack",
+		// "ms-python.python", // A Visual Studio Code extension with rich support for the Python language 
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
