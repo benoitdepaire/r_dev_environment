@@ -6,9 +6,31 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"workspaceFolder": "/workspace",
 	"service": "vscode",
+	// "workspaceMount": "source=${localWorkspaceFolder},target=/home/lucp1554/workspace,type=bind,consistency=cached", 
+	// "workspaceFolder": "/home/lucp1554/workspace",
 
+	// dd: 04/10/2022
+	// !! Development container 'features' are a proposed addition to the development container specification. 
+	// Please note that 'features' are in preview and subject to breaking changes.
+  // Once the proposed specification is accepted, implementation details will be published at https://containers.dev.
+	// 
+	// fish: Adds fish shell to a container. (This is a community contributed and maintained script.)
+  // https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/fish.md
+	// 
+	// common-utils: Installs a set of common command line utilities, Oh My Zsh!, and sets up a non-root user. 
+	// (https://github.com/devcontainers/features/tree/main/src/common-utils)
 	"features": {
-		"fish": "latest"
+		"fish": "latest",
+		"ghcr.io/devcontainers/features/common-utils:1": { 
+			"version": "latest",
+			"installZsh": "false",
+			"installOhMyZsh": "false",
+			"upgradePackages": "false",
+			"username": "${localEnv:USER}",
+			"uid": "automatic",
+			"guid": "automatic",
+			"nonFreePackages": "false"
+		}
 	},
 
 	// Set *default* container specific settings.json values on container create.

@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        # USERNAME: ${USER}
+        USERNAME: ${USER}
         QUARTO_VERSION: ${QUARTO_VERSION}
-    # user: ${USER}
+    user: ${USER}
     volumes:
       - ./workspace:/workspace:cached
       - ${RENV_PATHS_CACHE_HOST}:/renv/cache

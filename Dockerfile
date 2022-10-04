@@ -7,14 +7,14 @@
 FROM rocker/r-ver:4.2.1
 
 # Options for setup script
-# ARG USERNAME
+ARG USERNAME
 # ARG INSTALL_ZSH="false"
 # ARG USER_UID="1000"
 # ARG USER_GID="1000"
 # ARG UPGRADE_PACKAGES="false"
 # ARG INSTALL_OHMYZSH="false"
 # ARG INSTALL_NONFREE="false"
-ARG QUARTO_VERSION=latest
+# ARG QUARTO_VERSION=latest
 
 # key dependencies for certain R packages
 RUN apt-get update \
@@ -22,8 +22,9 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends software-properties-common curl wget libssl-dev libxml2-dev libsodium-dev imagemagick libmagick++-dev libgit2-dev libssh2-1-dev zlib1g-dev librsvg2-dev libudunits2-dev libcurl4-openssl-dev python3-pip pandoc libzip-dev libfreetype6-dev libfontconfig1-dev tk libpq5 libxt6 openssh-client openssh-server git \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# COPY library-scripts/common-debian.sh /tmp/library-scripts/
+# COPY .library-scripts/common-debian.sh /tmp/library-scripts/
 # RUN apt-get update && bash /tmp/library-scripts/common-debian.sh ${INSTALL_ZSH} ${USERNAME} ${USER_UID} ${USER_GID} ${UPGRADE_PACKAGES} ${INSTALL_OHMYZSH} ${INSTALL_NONFREE}
+
 
 # install R packages needed for VSCode interaction and package management
 RUN install2.r --error --skipinstalled --ncpus -4 languageserver renv remotes httpgd
@@ -81,4 +82,4 @@ RUN /rocker_scripts/install_quarto.sh
 #RUN chmod 755 /usr/local/bin/obs-cli-js
 
 # [Optional] Set the default user. Omit if you want to keep the default as root.
-# USER $USERNAME
+USER $USERNAME
