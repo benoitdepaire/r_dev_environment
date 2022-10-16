@@ -13,6 +13,7 @@ ARG PANDOC_VERSION
 ARG QUARTO_VERSION
 ARG RSTUDIO_USER
 ARG RSTUDIO_PASSWORD
+ARG RPACKAGES
 
 ENV S6_VERSION=$S6_VERSION
 ENV RSTUDIO_VERSION=$RSTUDIO_VERSION
@@ -31,7 +32,7 @@ RUN apt-get update \
 RUN install2.r --error --skipinstalled --ncpus -4 languageserver renv remotes httpgd rstudioapi
 
 # install additional R packages
-# RUN install2.r --error --skipinstalled --ncpus -4 rstudioapi
+RUN install2.r --error --skipinstalled --ncpus -4 $RPACKAGES
 
 # install radian via python and pip3
 RUN apt-get update \

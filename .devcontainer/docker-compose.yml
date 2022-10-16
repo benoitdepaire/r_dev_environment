@@ -2,29 +2,6 @@ version: '3.4'
 
 services:
   rstudiodevcontainer:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    #   args:
-    #     S6_VERSION: ${S6_VERSION}
-    #     RSTUDIO_VERSION: ${RSTUDIO_VERSION}
-    #     QUARTO_VERSION: ${QUARTO_VERSION}
-    #     PANDOC_VERSION: ${PANDOC_VERSION}
-    #     DEFAULT_USER: ${DEFAULT_USER}
-    #     USERNAME: ${USER}
-    # user: ${USER}
-    # volumes:
-    #   - ..:/workspace:cached
-    #   - ${RENV_PATHS_CACHE_HOST}:/renv/cache
-    # # cap_add:
-    # #   - SYS_PTRACE
-    # # security_opt:
-    # #   - seccomp:unconfined
-    # restart: 
-    #   unless-stopped
-    # ports:
-    #   - 8686:8787
-    # env_file: .env
     build:
       context: .
       dockerfile: Dockerfile
@@ -39,10 +16,12 @@ services:
         # Use the current user of the host system as the rstudio user
         RSTUDIO_USER: ${USER}
         RSTUDIO_PASSWORD: ${RSTUDIO_PASSWORD}
+        RPACKAGES : ${RPACKAGES}
     volumes:
       - ..:/home/${USER}/Rcontainer:cached
+      # - ${RENV_PATHS_CACHE_HOST}:/renv/cache
     restart:
       unless-stopped
     ports:
-      - 8686:8787
+      - 127.0.0.1:8686:8787
     env_file: .env
