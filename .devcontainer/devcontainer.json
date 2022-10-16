@@ -5,10 +5,15 @@
 	
 	"dockerComposeFile": "docker-compose.yml",
 
-	// Here the term “service” is the Docker definition. It refers to a container that we define in the 
-	// “docker-compose.yml” file later. The name you choose here needs to match the name of a “service” 
+	// Here the term “service” is the Docker definition. It refers to a service that we define in the 
+	// “docker-compose.yml” . The name you choose here needs to match the name of a “service” 
 	// (in the Docker sense) in the docker-compose.yml file.
-	"service": "rstudiodevcontainer",
+	// 
+	// Select service "vscode" if you want to save resources and only use vscode in your container for r work
+	// Select service "rstudio" if you also want to use Rstudio (through a browser) in your container for r work. Note
+	// that this also still inculdes vscode
+	"service": "rstudio",
+	// "service": "vscode",
 
 	// in which directory to find the workspace. The path provided here is the path as seen within the dev container. 
 	"workspaceFolder": "/home/${localEnv:USER}/Rcontainer",

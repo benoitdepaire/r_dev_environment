@@ -1,10 +1,23 @@
 version: '3.4'
 
 services:
-  rstudiodevcontainer:
+  vscode:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: vscode.dockerfile
+      args:
+        # USERNAME: ${USER}
+        QUARTO_VERSION: ${QUARTO_VERSION}
+        RPACKAGES : ${RPACKAGES}
+    volumes:
+      - ..:/home/${USER}/Rcontainer:cached
+      # - ${RENV_PATHS_CACHE_HOST}:/renv/cache
+    command: sleep infinity
+    env_file: .env
+  rstudio:
+    build:
+      context: .
+      dockerfile: rstudio.dockerfile
       args:
         RSTUDIO_FOCUS_DIR: /home/${USER}/Rcontainer/workspace
         # Use values from .env file to pass as argument values to dockerfile. This allows the user to treat .env as
