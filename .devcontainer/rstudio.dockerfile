@@ -1,25 +1,21 @@
-###################################################################################################################
-# Adapted from https://github.com/rpodcast/r_dev_projects/blob/main/.devcontainer/Dockerfile
-# Adapted from https://github.com/microsoft/vscode-dev-containers/blob/master/containers/r/.devcontainer/Dockerfile
-# licence: MIT
-###################################################################################################################
-
 FROM rocker/r-ver:4.2.1
 
-# Options for setup script
-ARG S6_VERSION
-ARG RSTUDIO_VERSION
-ARG PANDOC_VERSION
-ARG QUARTO_VERSION
-ARG RSTUDIO_USER
-ARG RSTUDIO_PASSWORD
+LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
+      org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
+      org.opencontainers.image.vendor="Rocker Project" \
+      org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV S6_VERSION=$S6_VERSION
-ENV RSTUDIO_VERSION=$RSTUDIO_VERSION
-ENV PANDOC_VERSION=$PANDOC_VERSION
-ENV QUARTO_VERSION=$QUARTO_VERSION
+ARG RSTUDIO_USER
+ARG PASSWORD
+ARG RSTUDIO_FOCUS_DIR
+
+ENV S6_VERSION=v2.1.0.2
+ENV RSTUDIO_VERSION=2022.07.2+576
+ENV PANDOC_VERSION=default
+ENV QUARTO_VERSION=default
 ENV DEFAULT_USER=$RSTUDIO_USER
-ENV PASSWORD=$RSTUDIO_PASSWORD
+ENV PASSWORD=$PASSWORD
+ENV EDITOR_FOCUS_DIR=$RSTUDIO_FOCUS_DIR
 
 # key dependencies for certain R packages
 RUN apt-get update \
@@ -27,11 +23,8 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends software-properties-common curl wget libssl-dev libxml2-dev libsodium-dev imagemagick libmagick++-dev libgit2-dev libssh2-1-dev zlib1g-dev librsvg2-dev libudunits2-dev libcurl4-openssl-dev python3-pip pandoc libzip-dev libfreetype6-dev libfontconfig1-dev tk libpq5 libxt6 openssh-client openssh-server git \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# install R packages needed for VSCode interaction, package management and Rstudio interaction
-RUN install2.r --error --skipinstalled --ncpus -4 languageserver renv remotes httpgd rstudioapi
-
-# install additional R packages
-# RUN install2.r --error --skipinstalled --ncpus -4 rstudioapi
+# install R packages needed for VSCode interaction and package management
+RUN install2.r --error --skipinstalled --ncpus -4 languageserver renv remotes httpgd
 
 # install radian via python and pip3
 RUN apt-get update \
@@ -47,22 +40,26 @@ RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-p
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-transport-https \
     && apt-get -y install --no-install-recommends dotnet-sdk-3.1
-
+    
 # ensure that the renv package cache env var is accessible in default R installation
 RUN echo "RENV_PATHS_CACHE=/renv/cache" >> /usr/local/lib/R/etc/Renviron
 
 # copy the modified .Rprofile template to the renv cache
 # COPY library-scripts/.Rprofile-vscode /renv/.Rprofile-vscode
 
+
 RUN /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_pandoc.sh
 RUN /rocker_scripts/install_quarto.sh
 
-# set working directory of RStudio as well as the focus directory
-RUN echo "setwd(\"/home/"$RSTUDIO_USER"/Rcontainer/workspace/\")" > ~/../home/$RSTUDIO_USER/.Rprofile 
-RUN echo "setHook(\"rstudio.sessionInit\", function(newSession) {\n  if (newSession)\n    rstudioapi::filesPaneNavigate(getwd())\n}, action = \"append\")" >> ~/../home/$RSTUDIO_USER/.Rprofile 
-
 EXPOSE 8787
 
+RUN echo "setwd(\"/home/lucp1554/Rcontainer/workspace/\")" > ~/../home/$RSTUDIO_USER/.Rprofile 
+RUN echo "setHook(\"rstudio.sessionInit\", function(newSession) {\n  if (newSession)\n    rstudioapi::filesPaneNavigate(getwd())\n}, action = \"append\")" >> ~/../home/$RSTUDIO_USER/.Rprofile 
+
+# [Optional] Set the default user. Omit if you want to keep the default as root.
+# ARG USERNAME
+# USER $USERNAME
+RUN install2.r --error --skipinstalled --ncpus -4 rstudioapi
 
 CMD ["/init"]

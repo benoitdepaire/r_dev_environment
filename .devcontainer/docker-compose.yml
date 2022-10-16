@@ -1,20 +1,48 @@
 version: '3.4'
 
 services:
-  vscode:
+  rstudiodevcontainer:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   args:
+    #     S6_VERSION: ${S6_VERSION}
+    #     RSTUDIO_VERSION: ${RSTUDIO_VERSION}
+    #     QUARTO_VERSION: ${QUARTO_VERSION}
+    #     PANDOC_VERSION: ${PANDOC_VERSION}
+    #     DEFAULT_USER: ${DEFAULT_USER}
+    #     USERNAME: ${USER}
+    # user: ${USER}
+    # volumes:
+    #   - ..:/workspace:cached
+    #   - ${RENV_PATHS_CACHE_HOST}:/renv/cache
+    # # cap_add:
+    # #   - SYS_PTRACE
+    # # security_opt:
+    # #   - seccomp:unconfined
+    # restart: 
+    #   unless-stopped
+    # ports:
+    #   - 8686:8787
+    # env_file: .env
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        USERNAME: ${USER}
+        RSTUDIO_FOCUS_DIR: /home/${USER}/Rcontainer/workspace
+        # Use values from .env file to pass as argument values to dockerfile. This allows the user to treat .env as
+        # a configuration file for the dev container
+        S6_VERSION: ${S6_VERSION}
+        RSTUDIO_VERSION: ${RSTUDIO_VERSION}
+        PANDOC_VERSION: ${PANDOC_VERSION}
         QUARTO_VERSION: ${QUARTO_VERSION}
-    user: ${USER}
+        # Use the current user of the host system as the rstudio user
+        RSTUDIO_USER: ${USER}
+        RSTUDIO_PASSWORD: ${RSTUDIO_PASSWORD}
     volumes:
-      - ..:/workspace:cached
-      - ${RENV_PATHS_CACHE_HOST}:/renv/cache
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - seccomp:unconfined
-    command: sleep infinity
+      - ..:/home/${USER}/Rcontainer:cached
+    restart:
+      unless-stopped
+    ports:
+      - 8686:8787
     env_file: .env

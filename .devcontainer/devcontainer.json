@@ -8,10 +8,10 @@
 	// Here the term “service” is the Docker definition. It refers to a container that we define in the 
 	// “docker-compose.yml” file later. The name you choose here needs to match the name of a “service” 
 	// (in the Docker sense) in the docker-compose.yml file.
-	"service": "vscode",
+	"service": "rstudiodevcontainer",
 
 	// in which directory to find the workspace. The path provided here is the path as seen within the dev container. 
-	"workspaceFolder": "/workspace",
+	"workspaceFolder": "/home/${localEnv:USER}/Rcontainer",
 
 	// dd: 04/10/2022
 	// !! Development container 'features' are a proposed addition to the development container specification. 
@@ -86,7 +86,7 @@
 		// "Mohamed-El-Fodil-Ihaddaden.shinysnip",
 		// "MS-vsliveshare.vsliveshare-pack",
 		// "ms-python.python", // A Visual Studio Code extension with rich support for the Python language 
-	]
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -95,5 +95,5 @@
 	// "postCreateCommand": "R --version",
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "docker"
+	"remoteUser": "${localEnv:USER}"
 }
